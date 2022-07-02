@@ -1,12 +1,18 @@
 import Axios from 'axios';
-export const authServices = async (token, data) => {
+export const login = async (token, data) => {
     let request = Axios({
         headers : { "Authorization" : "Bearer " + token, "Accept" : "application/json" },
         method : "post", data : data, url : process.env.MIX_APP_URL + "/api/v4/login"
     });
     return Promise.resolve(request);
 };
-
+export const loginGoogle = async (data) => {
+    let request = Axios({
+        headers : { "Accept" : "application/json"},
+        method : "post", data : data, url : process.env.MIX_APP_URL + "/api/v4/google-login"
+    });
+    return Promise.resolve(request);
+};
 export const me = async (token) => {
     let request = Axios({
         headers : { "Authorization" : "Bearer " + token},

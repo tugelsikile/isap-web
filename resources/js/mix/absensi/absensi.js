@@ -1,0 +1,1 @@
+require('../../Pages/Absensi/Absensi');

@@ -10,8 +10,9 @@
     <title>Login</title>
 </head>
 
-<body>
+<body style="background:url('{{asset('images/background_3.png')}}');background-size:cover">
     <div id="auth"></div>
+    <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/auth/login.js')}}"></script>
 </body>
 

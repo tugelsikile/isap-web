@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 
 <body>
     <div id="absensi"></div>
-
-    <script src="{{asset('js/auth/absensi.js')}}"></script>
+    <script src="{{asset('js/absensi/absensi.js')}}"></script>
 </body>
 
 </html>
