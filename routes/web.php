@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('Auth.login');
 });
+
+Route::group(['prefix' => 'absensi'], function () {
+    Route::get('/', function () {
+        return view('Absensi.Index');
+    });
+    Route::get('/start', function () {
+        return view('Absensi.Start');
+    });
+});
+
+// Route::any('/absensi', function () {
+//     return view('Absensi.Index');
+// });
+
+// Route::get('/absensi/start', function () {
+//     return view('Absensi.Start');
+// });
