@@ -2268,7 +2268,7 @@ var authServices = /*#__PURE__*/function () {
               },
               method: "post",
               data: data,
-              url: "http://sistem.rst.net.lan/api/v4/login"
+              url: "https://sistem.rst.dodi" + "/api/v4/login"
             });
             return _context.abrupt("return", Promise.resolve(request));
 
@@ -2296,7 +2296,7 @@ var me = /*#__PURE__*/function () {
                 "Authorization": "Bearer " + token
               },
               method: "get",
-              url: "http://sistem.rst.net.lan/api/v4/auth/users/current"
+              url: "https://sistem.rst.dodi" + "/api/v4/auth/users/current"
             });
             return _context2.abrupt("return", Promise.resolve(request));
 
@@ -2325,7 +2325,7 @@ var absensiThisDay = /*#__PURE__*/function () {
               },
               method: "post",
               data: data,
-              url: "http://sistem.rst.net.lan/api/v4/auth/users/attendances"
+              url: "https://sistem.rst.dodi" + "/api/v4/auth/users/attendances"
             });
             return _context3.abrupt("return", Promise.resolve(request));
 

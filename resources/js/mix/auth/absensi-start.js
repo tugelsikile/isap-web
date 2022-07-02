@@ -1,1 +1,1 @@
-require('../../Pages/Auth/Absensi-start');
+require('../../Pages/Auth/AbsensiStart');

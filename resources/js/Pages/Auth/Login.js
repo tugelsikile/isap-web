@@ -10,10 +10,9 @@ export default class Auth extends React.Component{
             form: {
                 email: null, password: null
             }
-        }
+        };
         this.submitAuth = this.submitAuth.bind(this);
     }
-
     componentDidMount(){
         if (localStorage.getItem('token') !== null) {
              window.location.href = window.origin + '/absensi';
@@ -37,7 +36,7 @@ async submitAuth(e) {
     } catch (e) {
         console.log(e);
     }
-    
+
 }
 
 
