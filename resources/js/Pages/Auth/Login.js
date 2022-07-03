@@ -26,6 +26,7 @@ async submitAuth(e) {
         formData.append('username', this.state.form.email);
         formData.append('password', this.state.form.password);
         let response = await authServices(this.state.token, formData);
+        
         if (response.data.params === null) {
             alert('error');
         } else {

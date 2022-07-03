@@ -2166,6 +2166,7 @@ var Absensi = /*#__PURE__*/function (_React$Component) {
                 _context.t0 = _context["catch"](0);
 
                 if (_context.t0.response.status === 401) {
+                  localStorage.removeItem('token');
                   window.location.href = window.origin + '/';
                 }
 
@@ -2292,7 +2293,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "absensiThisDay": () => (/* binding */ absensiThisDay),
 /* harmony export */   "authServices": () => (/* binding */ authServices),
-/* harmony export */   "me": () => (/* binding */ me)
+/* harmony export */   "checkShift": () => (/* binding */ checkShift),
+/* harmony export */   "me": () => (/* binding */ me),
+/* harmony export */   "sendFoto": () => (/* binding */ sendFoto)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
@@ -2319,7 +2322,7 @@ var authServices = /*#__PURE__*/function () {
               },
               method: "post",
               data: data,
-              url: "https://sistem.rst.dodi" + "/api/v4/login"
+              url: "https://sistem.rst.net.lan" + "/api/v4/login"
             });
             return _context.abrupt("return", Promise.resolve(request));
 
@@ -2347,7 +2350,7 @@ var me = /*#__PURE__*/function () {
                 "Authorization": "Bearer " + token
               },
               method: "get",
-              url: "https://sistem.rst.dodi" + "/api/v4/auth/users/current"
+              url: "https://sistem.rst.net.lan" + "/api/v4/auth/users/current"
             });
             return _context2.abrupt("return", Promise.resolve(request));
 
@@ -2376,7 +2379,7 @@ var absensiThisDay = /*#__PURE__*/function () {
               },
               method: "post",
               data: data,
-              url: "https://sistem.rst.dodi" + "/api/v4/auth/users/attendances"
+              url: "https://sistem.rst.net.lan" + "/api/v4/auth/users/attendances"
             });
             return _context3.abrupt("return", Promise.resolve(request));
 
@@ -2390,6 +2393,63 @@ var absensiThisDay = /*#__PURE__*/function () {
 
   return function absensiThisDay(_x4, _x5) {
     return _ref3.apply(this, arguments);
+  };
+}();
+var sendFoto = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(token, data) {
+    var request;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            request = axios__WEBPACK_IMPORTED_MODULE_0___default()({
+              headers: {
+                "Authorization": "Bearer " + token
+              },
+              method: "post",
+              data: data,
+              url: window.origin + "/api/test"
+            });
+            return _context4.abrupt("return", Promise.resolve(request));
+
+          case 2:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function sendFoto(_x6, _x7) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+var checkShift = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(token) {
+    var request;
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            request = axios__WEBPACK_IMPORTED_MODULE_0___default()({
+              headers: {
+                "Authorization": "Bearer " + token
+              },
+              method: "post",
+              url: "https://sistem.rst.net.lan" + "/api/v4/auth/users/attendances/check-shift"
+            });
+            return _context5.abrupt("return", Promise.resolve(request));
+
+          case 2:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  }));
+
+  return function checkShift(_x8) {
+    return _ref5.apply(this, arguments);
   };
 }();
 

@@ -35,6 +35,7 @@ export default class Absensi extends React.Component {
             }
         } catch (e) {
             if (e.response.status === 401) {
+                localStorage.removeItem('token');
                 window.location.href = window.origin + '/';
             }
         }
