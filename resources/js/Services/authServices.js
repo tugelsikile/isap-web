@@ -44,3 +44,10 @@ export const checkShift = async (token) => {
     });
     return Promise.resolve(request);
 };
+export const startAbsen = async (token, data) => {
+    let request = Axios({
+        headers : { "Authorization" : "Bearer " + token},
+        method : "post", data : data, url : process.env.MIX_APP_URL + "/api/v4/auth/users/attendances/check-shift"
+    });
+    return Promise.resolve(request);
+};

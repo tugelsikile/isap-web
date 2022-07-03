@@ -1,24 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Camera, {IMAGE_TYPES} from 'react-html5-camera-photo';
+import Camera, {FACING_MODES,IMAGE_TYPES} from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
-import { sendFoto } from '../../Services/authServices';
-import { checkShift } from '../../Services/authServices';
+import { checkShift,startAbsen } from '../../Services/authServices';
 import haversine from 'haversine-distance';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
-import CameraswitchIcon from '@mui/icons-material/Cameraswitch';
 import Fab from '@mui/material/Fab';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import SendIcon from '@mui/icons-material/Send';
 
 export default class AbsensiStart extends React.Component {
     constructor(props) {
@@ -26,13 +24,15 @@ export default class AbsensiStart extends React.Component {
         this.state = {
             token: localStorage.getItem('token'), current_user : null,
             form: { foto: null },
+            formData : new FormData(),
             shift: null,
             locations: { current: { lat: 0, lng: 0 }, target: { lat: 0, lng: 0 } },
-            button : { disabled : true },
+            button : { disabled : true }, loading : false,
             popup : {anchor:null,open:false},
             capturing : false,
         };
         this.handleTakePhoto = this.handleTakePhoto.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.checkShiftUsers = this.checkShiftUsers.bind(this);
     }
 
@@ -40,6 +40,7 @@ export default class AbsensiStart extends React.Component {
         if (localStorage.getItem('user') === null) {
             window.location.href = window.origin;
         } else {
+
             this.setState({current_user:JSON.parse(localStorage.getItem('user'))});
             this.initService();
         }
@@ -75,27 +76,55 @@ export default class AbsensiStart extends React.Component {
 
     checkHitungJarak() {
         let jarak = 0;
+        let button = this.state.button;
         if (!this.state.shift.outside) {
             jarak = haversine(this.state.locations.current, this.state.locations.target);
         }
         if (jarak > this.state.shift.radius) {
             alert('gaboleh absen jaraknya kejauhan');
         } else {
-            let button = this.state.button;
             button.disabled = false;
-            this.setState({ button });
+            this.setState({ button ,capturing:true});
         }
     }
 
    async handleTakePhoto(dataUri) {
-        var fd = new FormData();
+        let form = this.state.form;
+        let formData = this.state.formData;
+        formData.append('_method', 'put');
+        form.foto = dataUri;
+        formData.append('gambar_absen', dataURLtoFile(dataUri,'ghhhj.jpg'));
+        this.setState({formData,form,capturing:false});
+        this.handleSubmit();
+        /*var fd = new FormData();
         fd.append('data', dataURLtoFile(dataUri,'ghhhj.jpg'));
-       let response = await sendFoto(null, fd);
+       let response = await sendFoto(null, fd);*/
+    }
+    async handleSubmit(){
+        this.setState({loading:true});
+        try {
+            let formData = this.state.formData;
+            formData.append('lokasi_latitude', this.state.locations.current.lat);
+            formData.append('lokasi_longitude', this.state.locations.current.lng);
+            formData.append('versi_aplikasi','20220703');
+            formData.append('alamat_ip','0.0.0.0');
+            formData.append('is_maintenance', 0);
+            let response = await startAbsen(localStorage.getItem('token'), formData);
+            if (response.data.params === null) {
+                alert(response.data.message);
+            } else {
+                window.location.href = window.origin + '/absensi';
+            }
+        } catch (e) {
+            console.log(e);
+            alert(e.response.data.message);
+        }
+        this.setState({loading:true});
     }
     render() {
         return (
             <>
-                <AppBar position="static">
+                <AppBar position="fixed">
                     <Container maxWidth="xl">
                         <Toolbar disableGutters>
                             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -140,18 +169,18 @@ export default class AbsensiStart extends React.Component {
                 </AppBar>
                 {this.state.capturing ?
                     <Camera
-                        imageType = {IMAGE_TYPES.JPG}
+                        imageType = {IMAGE_TYPES.JPG} isFullscreen={true}
+                        idealFacingMode={FACING_MODES.USER}
                         onTakePhoto = { (dataUri) => { this.handleTakePhoto(dataUri); } }
                     />
                     :
                     <img alt="poto" style={{width:'100%'}} src={this.state.form.foto}/>
                 }
-                <Fab onClick={this.handleTakePhoto} style={{position:'fixed',bottom:'10px',left:'10px',right:'auto',margin:'auto'}} color="primary" aria-label="add">
-                    <FingerprintIcon />
-                </Fab>
-                <Fab onClick={this.handleTakePhoto} style={{position:'fixed',bottom:'10px',left:'auto',right:'10px',margin:'auto'}} color="primary" aria-label="add">
-                    <CameraswitchIcon />
-                </Fab>
+                {this.state.form.foto !== null &&
+                    <Fab disabled={this.state.loading} onClick={this.handleSubmit} style={{position:'fixed',bottom:'10px',left:'10px',right:'auto',margin:'auto'}} color="primary" aria-label="add">
+                        <SendIcon />
+                    </Fab>
+                }
             </>
         )
     }

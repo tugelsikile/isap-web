@@ -46,6 +46,8 @@ export default class Absensi extends React.Component {
 
     async loadMe() {
         if (localStorage.getItem('user') === null) {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             window.location.href = window.origin;
         } else {
             this.setState({current_user:JSON.parse(localStorage.getItem('user'))});
