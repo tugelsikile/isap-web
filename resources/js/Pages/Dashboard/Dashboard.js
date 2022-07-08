@@ -28,7 +28,7 @@ export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      current_user: null,
+      current_user : null,
       token : localStorage.getItem('token'),
     }
     this.loadMe = this.loadMe.bind(this);
@@ -52,9 +52,6 @@ export default class Dashboard extends React.Component {
             this.setState({current_user:JSON.parse(localStorage.getItem('user'))});
         }
     }
-
-
-
     render() {
 
     const pages = [];
@@ -225,12 +222,7 @@ export default class Dashboard extends React.Component {
                 </div>
 
                 <div style={{position:"relative"}} id='content'>
-                {
-                    this.state.current_user === null ? null :
-                        this.state.current_user.meta.level.meta.menus.map((item, index) =>
-                            <p key={index}>{item.label}</p>
-                        )
-                }
+                
                 </div>
               
                 <div className="d-flex justify-content-around fixed-bottom" id='navigationBottom'>            

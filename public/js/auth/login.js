@@ -29252,7 +29252,7 @@ var Auth = /*#__PURE__*/function (_React$Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       if (localStorage.getItem('token') !== null) {
-        window.location.href = window.origin + '/absensi';
+        window.location.href = window.origin + '/';
       }
     }
   }, {

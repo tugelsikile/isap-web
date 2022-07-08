@@ -22,6 +22,14 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 export default class NavbarPages extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            current_user: JSON.parse(localStorage.getItem('user')),
+            popup : {anchor:null,open:false}
+        }
+    }
+
+    componentDidMount() {
+        console.log(this.state.current_user);
     }
 
     render() {

@@ -30,7 +30,7 @@ export default class Auth extends React.Component{
     }
     componentDidMount(){
         if (localStorage.getItem('token') !== null) {
-             window.location.href = window.origin + '/absensi';
+             window.location.href = window.origin + '/';
         }
     }
     async submitGoogleLogin(formData, nama, picture){;

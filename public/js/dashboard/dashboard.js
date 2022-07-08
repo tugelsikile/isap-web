@@ -20385,15 +20385,30 @@ var NavbarPages = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(NavbarPages);
 
   function NavbarPages(props) {
+    var _this;
+
     _classCallCheck(this, NavbarPages);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.state = {
+      current_user: JSON.parse(localStorage.getItem('user')),
+      popup: {
+        anchor: null,
+        open: false
+      }
+    };
+    return _this;
   }
 
   _createClass(NavbarPages, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      console.log(this.state.current_user);
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_AppBar__WEBPACK_IMPORTED_MODULE_2__["default"], {
         position: "static"
@@ -20463,10 +20478,10 @@ var NavbarPages = /*#__PURE__*/function (_React$Component) {
         title: "Open settings"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_mui_material_IconButton__WEBPACK_IMPORTED_MODULE_10__["default"], {
         onClick: function onClick(e) {
-          var popup = _this.state.popup;
+          var popup = _this2.state.popup;
           popup.anchor = e.currentTarget;
 
-          _this.setState({
+          _this2.setState({
             popup: popup
           });
         },
@@ -20493,10 +20508,10 @@ var NavbarPages = /*#__PURE__*/function (_React$Component) {
         },
         open: Boolean(this.state.popup.anchor),
         onClose: function onClose() {
-          var popup = _this.state.popup;
+          var popup = _this2.state.popup;
           popup.anchor = null;
 
-          _this.setState({
+          _this2.setState({
             popup: popup
           });
         }
@@ -20879,11 +20894,7 @@ var Dashboard = /*#__PURE__*/function (_React$Component) {
           position: "relative"
         },
         id: "content"
-      }, this.state.current_user === null ? null : this.state.current_user.meta.level.meta.menus.map(function (item, index) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-          key: index
-        }, item.label);
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "d-flex justify-content-around fixed-bottom",
         id: "navigationBottom"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(SimpleBottomNavigation, null)));
