@@ -17,6 +17,7 @@ import Fab from '@mui/material/Fab';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import SendIcon from '@mui/icons-material/Send';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default class AbsensiStart extends React.Component {
     constructor(props) {
@@ -132,7 +133,7 @@ export default class AbsensiStart extends React.Component {
                                         sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}>
                                 ABSENSI
                             </Typography>
-                            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+                            <ArrowBackIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} onClick={()=>{window.location.href = window.origin + '/absensi'}} />
                             <Typography variant="h5" noWrap component="a"
                                         href={window.origin}
                                         sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}>

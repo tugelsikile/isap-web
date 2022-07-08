@@ -1,7 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import moment from 'moment';
-moment.locale('id');
+import ReacDOM from 'react-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -19,62 +17,18 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Fab from '@mui/material/Fab';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-
-import { me } from "../../Services/authServices";
-import { absensiThisDay } from '../../Services/authServices';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-export default class Absensi extends React.Component {
-
+export default class NavbarPages extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            token: localStorage.getItem('token'),
-            form: { periode: null },
-            current_user: null,
-            absensi_sekarang: [],
-            popup : {anchor:null,open:false}
-        };
-
-        this.loadMe = this.loadMe.bind(this);
-        this.getAllAbsensi = this.getAllAbsensi.bind(this);
+        super(props)
     }
 
-
-    componentDidMount() {
-        this.loadMe();
-    }
-
-    async loadMe() {
-        if (localStorage.getItem('user') === null) {
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
-            window.location.href = window.origin;
-        } else {
-            this.setState({current_user:JSON.parse(localStorage.getItem('user'))});
-            this.getAllAbsensi();
-        }
-    }
-
-    async getAllAbsensi() {
-        try {
-            let periode = moment().format('yyyy-MM-DD');
-            periode = '2022-04-04';
-            let formData = new FormData();
-            formData.append('periode', periode);
-            let response = await absensiThisDay(this.state.token, formData);
-            if (response.data.params === null) {
-                alert(response.data.message);
-            } else {
-                this.setState({ absensi_sekarang: response.data.params });
-            }
-        } catch (e) {
-            alert(e.response.data.message);
-        }
-    }
     render() {
+        
         return (
             <>
+            
                 <AppBar position="static">
                     <Container maxWidth="xl">
                         <Toolbar disableGutters>
@@ -118,36 +72,8 @@ export default class Absensi extends React.Component {
                         </Toolbar>
                     </Container>
                 </AppBar>
-
-                <ImageList>
-                    <ImageListItem key="Subheader" cols={2}>
-                        <ListSubheader component="div">{moment().format('DD MMMM yyyy')}</ListSubheader>
-                    </ImageListItem>
-                    {this.state.absensi_sekarang.map((item,index) => (
-                        <ImageListItem key={index}>
-                            <img
-                                src={`${item.meta.file.length === 0 ? window.origin + '/images/default.png' : item.meta.file }?w=248&fit=crop&auto=format`}
-                                srcSet={`${item.meta.file.length === 0 ? window.origin + '/images/default.png' : item.meta.file}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                                alt={item.label}
-                                loading="lazy"
-                            />
-                            <ImageListItemBar
-                                title={item.label}
-                                subtitle={moment(item.meta.at).format('HH:mm')}/>
-                        </ImageListItem>
-                    ))}
-                </ImageList>
-
-                {this.state.current_user === null ? null : this.state.current_user.meta.group.value === "" ? null :
-                    <Fab onClick={()=>window.location.href=window.origin + '/absensi/start'} style={{position:'fixed',bottom:'10px',left:'10px',right:'auto',margin:'auto'}} color="primary" aria-label="add">
-                        <FingerprintIcon />
-                    </Fab>
-                }
+                
             </>
         )
     }
-}
-
-if (document.getElementById('absensi')) {
-    ReactDOM.render(<Absensi />, document.getElementById('absensi'));
 }

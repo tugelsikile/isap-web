@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
+    return view('Dashboard');
+});
+
+Route::get('/login', function () {
     return view('Auth.Login');
 });
 
@@ -30,11 +34,3 @@ Route::group(['prefix' => 'absensi'], function () {
         return view('Absensi.Start');
     });
 });
-
-// Route::any('/absensi', function () {
-//     return view('Absensi.Index');
-// });
-
-// Route::get('/absensi/start', function () {
-//     return view('Absensi.Start');
-// });

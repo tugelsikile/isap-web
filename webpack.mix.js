@@ -15,4 +15,7 @@ mix.sass('resources/css/app.scss', 'public/css')
     .js('resources/js/app.js', 'public/js')
     .js('resources/js/mix/auth/login.js', 'public/js/auth')
     .js('resources/js/mix/absensi/absensi.js', 'public/js/absensi')
-    .js('resources/js/mix/absensi/absensi-start.js', 'public/js/absensi');
+    .js('resources/js/mix/absensi/absensi-start.js', 'public/js/absensi')
+    .js('resources/js/mix/dashboard/dashboard.js', 'public/js/dashboard')
+    .js('resources/js/mix/dashboard/upperNavbar.js', 'publicjs/js/dashboard')
+    .js('resources/js/mix/dashboard/bottomNavbar.js', 'public/js/dashboard');

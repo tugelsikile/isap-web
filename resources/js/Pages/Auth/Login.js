@@ -56,7 +56,7 @@ export default class Auth extends React.Component{
                 this.setState({loading:false});
             } else {
                 localStorage.setItem('user', JSON.stringify(response.data.params));
-                window.location.href = window.origin + '/absensi';
+                window.location.href = window.origin + '/';
             }
         } catch (e) {
             alert(e.response.data.message);
