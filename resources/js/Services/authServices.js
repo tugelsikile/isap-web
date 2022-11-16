@@ -40,14 +40,14 @@ export const sendFoto = async (token,data) => {
 export const checkShift = async (token) => {
     let request = Axios({
         headers : { "Authorization" : "Bearer " + token},
-        method : "post", url : "https://sistem.rst.net.lan/api/v4/auth/users/attendances/check-shift"
+        method : "post", url : process.env.MIX_APP_URL + "/api/v4/auth/users/attendances/check-shift"
     });
     return Promise.resolve(request);
 };
 export const startAbsen = async (token, data) => {
     let request = Axios({
         headers : { "Authorization" : "Bearer " + token},
-        method : "post", data : data, url : "https://sistem.rst.net.lan/api/v4/auth/users/attendances/check-shift"
+        method : "post", data : data, url : process.env.MIX_APP_URL + "/api/v4/auth/users/attendances/check-shift"
     });
     return Promise.resolve(request);
 };
