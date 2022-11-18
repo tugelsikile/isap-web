@@ -24,7 +24,6 @@ export default class AbsensiStart extends React.Component {
         this.state = {
             token: localStorage.getItem('token'), current_user : null,
             form: { foto: null },
-            formData : new FormData(),
             shift: null,
             locations: { current: { lat: 0, lng: 0 }, target: { lat: 0, lng: 0 } },
             button : { disabled : true }, loading : false,
@@ -42,20 +41,41 @@ export default class AbsensiStart extends React.Component {
         } else {
 
             this.setState({current_user:JSON.parse(localStorage.getItem('user'))});
-            this.initService();
+            this.currentLocation();
         }
     }
     initService() {
         this.currentLocation();
     }
-    async currentLocation(){
-        let position = await navigator.geolocation.getCurrentPosition(position => {
+
+    async currentLocation() {
+
+       const options = {
+            enableHighAccuracy: true,
+            timeout: 2000,
+            maximumAge: 0
+        };
+        function error(err) {
+            alert(`ERROR(${err.code}): ${err.message}`);
+        }
+        let position = await navigator.geolocation.getCurrentPosition((position) => {
             let locations = this.state.locations;
-            locations.current.lat = position.coords.latitude,
-                locations.current.lng = position.coords.longitude;
+            locations.current.lat = position.coords.latitude;
+            locations.current.lng = position.coords.longitude;
             this.setState({ locations });
             this.checkShiftUsers();
-        });
+        },error, options);
+        
+        // const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+        // useGeolocated({
+        //     positionOptions: {
+        //         enableHighAccuracy: false,
+        //     },
+        //     userDecisionTimeout: 5000,
+        // });
+
+        // console.log(coords);
+        
     }
    async checkShiftUsers() {
         try {
@@ -71,45 +91,78 @@ export default class AbsensiStart extends React.Component {
             }
         } catch (e) {
             alert(e.response.data.status_message);
+            window.location.href = window.origin + '/absensi';
         }
     }
 
     checkHitungJarak() {
-        let jarak = 0;
-        let button = this.state.button;
-        if (!this.state.shift.outside) {
-            jarak = haversine(this.state.locations.current, this.state.locations.target);
+        try {
+
+            let jarak = 0;
+            let button = this.state.button;
+
+
+            if (this.state.shift.outside == false) {
+                jarak = haversine(this.state.locations.current, this.state.locations.target );
+
+                if (jarak > this.state.shift.radius) {
+                    alert('gaboleh absen jaraknya kejauhan => '+ jarak);
+                
+                } else {
+                    button.disabled = false;
+                    this.setState({ button });
+                    this.setState({ button ,capturing:true});
+                }
+
+            } else {
+                button.disabled = false;
+                this.setState({ button });
+                this.setState({ button ,capturing:true});
+            }
+            
+            // if (!this.state.shift.outside) {
+            //     jarak = haversine(this.state.locations.current, this.state.locations.target);
+            // }
+
+            // if (jarak > this.state.shift.radius) {
+            //     alert('gaboleh absen jaraknya kejauhan => '+ jarak);
+            // } else {
+            //     button.disabled = false;
+            //     this.setState({ button ,capturing:true});
+            // }
+            
+        } catch (e) {
+            alert(e);
         }
-        if (jarak > this.state.shift.radius) {
-            alert('gaboleh absen jaraknya kejauhan');
-        } else {
-            button.disabled = false;
-            this.setState({ button ,capturing:true});
-        }
+        
     }
 
    async handleTakePhoto(dataUri) {
         let form = this.state.form;
-        let formData = this.state.formData;
-        formData.append('_method', 'put');
+        // let formData = new FormData();
+        // formData.append('_method', 'put');
         form.foto = dataUri;
-        formData.append('gambar_absen', dataURLtoFile(dataUri,'ghhhj.jpg'));
-        this.setState({formData,form,capturing:false});
-        this.handleSubmit();
+        // formData.append('gambar_absen', dataURLtoFile(dataUri,'ghhhj.jpg'));
+        this.setState({form});
+        let foto = dataURLtoFile(dataUri, 'ghhhj.jpg');
+        this.handleSubmit(foto);
         /*var fd = new FormData();
         fd.append('data', dataURLtoFile(dataUri,'ghhhj.jpg'));
-       let response = await sendFoto(null, fd);*/
+        let response = await sendFoto(null, fd);*/
     }
-    async handleSubmit(){
+    async handleSubmit(foto) {
         this.setState({loading:true});
         try {
-            let formData = this.state.formData;
+            let formData = new FormData();
+            formData.append('_method', 'put');
+            formData.append('gambar_absen', foto);
             formData.append('lokasi_latitude', this.state.locations.current.lat);
             formData.append('lokasi_longitude', this.state.locations.current.lng);
-            formData.append('versi_aplikasi','20220703');
+            formData.append('versi_aplikasi','20221107');
             formData.append('alamat_ip','0.0.0.0');
             formData.append('is_maintenance', 0);
             let response = await startAbsen(localStorage.getItem('token'), formData);
+            
             if (response.data.params === null) {
                 alert(response.data.message);
             } else {
@@ -117,9 +170,9 @@ export default class AbsensiStart extends React.Component {
             }
         } catch (e) {
             console.log(e);
-            alert(e.response.data.message);
+            alert(e.response.data.status_message);
         }
-        this.setState({loading:true});
+        this.setState({loading:false});
     }
     render() {
         return (
@@ -130,13 +183,13 @@ export default class AbsensiStart extends React.Component {
                             <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                             <Typography variant="h6" noWrap component="a" href="/"
                                         sx={{ mr: 2, display: { xs: 'none', md: 'flex' }, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}>
-                                ABSENSIIII
+                                ABSENSI
                             </Typography>
                             <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                             <Typography variant="h5" noWrap component="a"
                                         href={window.origin}
                                         sx={{ mr: 2, display: { xs: 'flex', md: 'none' }, flexGrow: 1, fontFamily: 'monospace', fontWeight: 700, letterSpacing: '.3rem', color: 'inherit', textDecoration: 'none', }}>
-                                ABSENSIIII
+                                ABSENSI
                             </Typography>
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title="Open settings">
