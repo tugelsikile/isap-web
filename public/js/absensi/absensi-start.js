@@ -22690,7 +22690,7 @@ var login = /*#__PURE__*/function () {
               },
               method: "post",
               data: data,
-              url: "https://sistem.rst.net.lan" + "/api/v4/login"
+              url: "https://sistem.rst.net.id" + "/api/v4/login"
             });
             return _context.abrupt("return", Promise.resolve(request));
 
@@ -22719,7 +22719,7 @@ var loginGoogle = /*#__PURE__*/function () {
               },
               method: "post",
               data: data,
-              url: "https://sistem.rst.net.lan" + "/api/v4/google-login"
+              url: "https://sistem.rst.net.id" + "/api/v4/google-login"
             });
             return _context2.abrupt("return", Promise.resolve(request));
 
@@ -22747,7 +22747,7 @@ var me = /*#__PURE__*/function () {
                 "Authorization": "Bearer " + token
               },
               method: "get",
-              url: "https://sistem.rst.net.lan" + "/api/v4/auth/users/current"
+              url: "https://sistem.rst.net.id" + "/api/v4/auth/users/current"
             });
             return _context3.abrupt("return", Promise.resolve(request));
 
@@ -22776,7 +22776,7 @@ var absensiThisDay = /*#__PURE__*/function () {
               },
               method: "post",
               data: data,
-              url: "https://sistem.rst.net.lan" + "/api/v4/auth/users/attendances"
+              url: "https://sistem.rst.net.id" + "/api/v4/auth/users/attendances"
             });
             return _context4.abrupt("return", Promise.resolve(request));
 
@@ -22833,7 +22833,7 @@ var checkShift = /*#__PURE__*/function () {
                 "Authorization": "Bearer " + token
               },
               method: "post",
-              url: "https://sistem.rst.net.lan" + "/api/v4/auth/users/attendances/check-shift"
+              url: "https://sistem.rst.net.id" + "/api/v4/auth/users/attendances/check-shift"
             });
             return _context6.abrupt("return", Promise.resolve(request));
 
@@ -22862,7 +22862,7 @@ var startAbsen = /*#__PURE__*/function () {
               },
               method: "post",
               data: data,
-              url: "https://sistem.rst.net.lan" + "/api/v4/auth/users/attendances/check-shift"
+              url: "https://sistem.rst.net.id" + "/api/v4/auth/users/attendances/check-shift"
             });
             return _context7.abrupt("return", Promise.resolve(request));
 
